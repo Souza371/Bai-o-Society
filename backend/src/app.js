@@ -7,6 +7,7 @@ const authRoutes = require('./routes/authRoutes');
 const quadraRoutes = require('./routes/quadraRoutes');
 const reservaRoutes = require('./routes/reservaRoutes');
 const pagamentoRoutes = require('./routes/pagamentoRoutes');
+const timeRoutes = require('./routes/timeRoutes');
 
 // Criar app Express
 const app = express();
@@ -38,6 +39,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/quadras', quadraRoutes);
 app.use('/api/reservas', reservaRoutes);
 app.use('/api/pagamentos', pagamentoRoutes);
+app.use('/api/times', timeRoutes);
 
 // Rota 404
 app.use((req, res) => {
