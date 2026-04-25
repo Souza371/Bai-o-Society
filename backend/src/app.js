@@ -8,6 +8,7 @@ const quadraRoutes = require('./routes/quadraRoutes');
 const reservaRoutes = require('./routes/reservaRoutes');
 const pagamentoRoutes = require('./routes/pagamentoRoutes');
 const timeRoutes = require('./routes/timeRoutes');
+const dashboardRoutes = require('./routes/dashboardRoutes');
 
 // Criar app Express
 const app = express();
@@ -40,6 +41,7 @@ app.use('/api/quadras', quadraRoutes);
 app.use('/api/reservas', reservaRoutes);
 app.use('/api/pagamentos', pagamentoRoutes);
 app.use('/api/times', timeRoutes);
+app.use('/api/dashboard', dashboardRoutes);
 
 // Rota 404
 app.use((req, res) => {
