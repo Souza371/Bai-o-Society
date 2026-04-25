@@ -6,6 +6,7 @@ require('dotenv').config();
 const authRoutes = require('./routes/authRoutes');
 const quadraRoutes = require('./routes/quadraRoutes');
 const reservaRoutes = require('./routes/reservaRoutes');
+const pagamentoRoutes = require('./routes/pagamentoRoutes');
 
 // Criar app Express
 const app = express();
@@ -36,6 +37,7 @@ app.get('/health', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/quadras', quadraRoutes);
 app.use('/api/reservas', reservaRoutes);
+app.use('/api/pagamentos', pagamentoRoutes);
 
 // Rota 404
 app.use((req, res) => {
