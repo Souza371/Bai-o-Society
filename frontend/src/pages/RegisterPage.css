@@ -1,0 +1,106 @@
+.register-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0d47a1 0%, #1565c0 50%, #1976d2 100%);
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.register-container {
+  width: 100%;
+  max-width: 500px;
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.register-card {
+  background-color: white;
+  padding: 50px 40px;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.register-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.register-header img {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 15px;
+  animation: rotation 0.8s ease-out;
+}
+
+@keyframes rotation {
+  from {
+    transform: scale(0.8) rotate(-10deg);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+.register-header h1 {
+  font-size: 28px;
+  color: #1565c0;
+  margin: 10px 0 5px;
+  font-weight: 700;
+}
+
+.register-header p {
+  color: #757575;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.register-footer {
+  text-align: center;
+  margin-top: 25px;
+  padding-top: 20px;
+  border-top: 1px solid #e0e0e0;
+  font-size: 14px;
+  color: #757575;
+}
+
+.register-footer a {
+  color: #1565c0;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.register-footer a:hover {
+  color: #0d47a1;
+  text-decoration: underline;
+}
+
+.register-footer a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+  .register-card {
+    padding: 24px;
+  }
+
+  .register-header h1 {
+    font-size: 24px;
+  }
+}

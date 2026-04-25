@@ -1,0 +1,58 @@
+<!-- Teste de Login para debug -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Debug Login</title>
+  <style>
+    body { font-family: monospace; padding: 20px; }
+    .result { margin-top: 20px; padding: 10px; border: 1px solid #ccc; }
+    .error { color: red; }
+    .success { color: green; }
+  </style>
+</head>
+<body>
+  <h1>Debug Login Baião Society</h1>
+  <button onclick="testarLogin()">Testar Login com admin@baiao.com / admin123</button>
+  
+  <div id="result" class="result"></div>
+
+  <script>
+    async function testarLogin() {
+      const resultDiv = document.getElementById('result');
+      resultDiv.innerHTML = '⏳ Testando...';
+      
+      try {
+        const response = await fetch('http://localhost:5000/api/auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            email: 'admin@baiao.com',
+            senha: 'admin123'
+          })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+          resultDiv.innerHTML = `
+            <h3 class="success">✅ Login Sucesso!</h3>
+            <pre>${JSON.stringify(data, null, 2)}</pre>
+          `;
+        } else {
+          resultDiv.innerHTML = `
+            <h3 class="error">❌ Erro: ${data.message}</h3>
+            <pre>${JSON.stringify(data, null, 2)}</pre>
+          `;
+        }
+      } catch (error) {
+        resultDiv.innerHTML = `
+          <h3 class="error">❌ Erro de Conexão</h3>
+          <p>${error.message}</p>
+        `;
+      }
+    }
+  </script>
+</body>
+</html>

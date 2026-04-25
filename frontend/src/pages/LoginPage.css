@@ -1,0 +1,154 @@
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0d47a1 0%, #1565c0 50%, #1976d2 100%);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.login-container {
+  width: 100%;
+  max-width: 450px;
+  padding: 20px;
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.login-card {
+  background-color: white;
+  padding: 50px 40px;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.login-header img {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 20px;
+  animation: rotation 0.8s ease-out;
+}
+
+@keyframes rotation {
+  from {
+    transform: scale(0.8) rotate(-10deg);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+.login-header h1 {
+  font-size: 32px;
+  color: #1565c0;
+  margin: 15px 0 5px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.login-header p {
+  color: #757575;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.alert {
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  border-left: 4px solid;
+}
+
+.alert-error {
+  background-color: #ffebee;
+  color: #c62828;
+  border-left-color: #c62828;
+}
+
+.alert-success {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  border-left-color: #2e7d32;
+}
+
+.login-footer {
+  text-align: center;
+  margin-top: 25px;
+  padding-top: 20px;
+  border-top: 1px solid #e0e0e0;
+  font-size: 14px;
+  color: #757575;
+}
+
+.login-footer a {
+  color: #1565c0;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.login-footer a:hover {
+  color: #0d47a1;
+  text-decoration: underline;
+}
+
+.demo-credentials {
+  background-color: #f5f5f5;
+  padding: 16px;
+  border-radius: 8px;
+  margin-top: 25px;
+  border-left: 4px solid #ffc107;
+  font-size: 13px;
+}
+
+.demo-credentials p {
+  margin: 8px 0;
+  color: #424242;
+}
+
+.demo-credentials strong {
+  color: #1565c0;
+  font-weight: 600;
+}
+
+.login-footer a:hover {
+  text-decoration: underline;
+}
+
+.demo-credentials {
+  background-color: #ecf0f1;
+  padding: 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  margin-top: 20px;
+  color: #555;
+}
+
+.demo-credentials p {
+  margin: 4px 0;
+}
+
+.demo-credentials strong {
+  color: #2c3e50;
+}
