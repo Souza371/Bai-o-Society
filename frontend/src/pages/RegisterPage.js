@@ -60,7 +60,7 @@ function RegisterPage() {
       <div className="register-container">
         <Card className="register-card">
           <div className="register-header">
-            <img src="/brasao.svg" alt="Baião Society" />
+            <img src="/brasao-oficial.jpg" alt="Baião Society" className="brasao-oficial" />
             <h1>Criar Conta</h1>
             <p>Baião Society - Sistema de Gestão de Quadras</p>
           </div>

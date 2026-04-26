@@ -17,7 +17,7 @@ function Navbar() {
     <nav className="navbar">
       <div className="navbar-container">
         <div className="navbar-logo">
-          <img src="/brasao.svg" alt="Baião Society" className="navbar-brasao" />
+          <img src="/brasao-oficial.jpg" alt="Baião Society Logo" className="navbar-brasao" />
           <h1>Baião Society</h1>
         </div>
         <ul className="navbar-menu">

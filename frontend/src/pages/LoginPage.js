@@ -50,8 +50,8 @@ function LoginPage() {
       <div className="login-container">
         <Card className="login-card">
           <div className="login-header">
-            <img src="/brasao.svg" alt="Baião Society" />
-            <h1>⚽ Baião Society</h1>
+            <img src="/brasao-oficial.jpg" alt="Baião Society" className="brasao-oficial" />
+            <h1>Baião Society</h1>
             <p>Sistema de Gestão de Quadras</p>
           </div>
 

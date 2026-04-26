@@ -26,7 +26,7 @@ function Avatar({ nome, email, perfil, tamanho = 'md' }) {
 
   return (
     <div className={`avatar avatar-${tamanho}`} style={{ backgroundColor: getCorPerfil() }}>
-      <img src="/brasao.svg" alt={`Avatar de ${nome}`} className="avatar-brasao" />
+      <img src="/brasao-oficial.jpg" alt={`Avatar de ${nome}`} className="avatar-brasao" />
       <div className="avatar-initials">{iniciais}</div>
     </div>
   );

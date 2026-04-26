@@ -92,7 +92,7 @@ function DashboardPage() {
     <div className="dashboard-page">
       <div className="dashboard-header">
         <div className="dashboard-header-content">
-          <img src="/brasao.svg" alt="Baião Society" className="dashboard-brasao" />
+          <img src="/brasao-oficial.jpg" alt="Baião Society" className="dashboard-brasao brasao-oficial" />
           <div className="dashboard-header-text">
             <h1>Dashboard de Reservas</h1>
             <p className="dashboard-subtitle">Baião Society - Sistema de Gestão de Quadras</p>

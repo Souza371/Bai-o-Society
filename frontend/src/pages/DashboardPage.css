@@ -25,6 +25,9 @@
   height: 70px;
   object-fit: contain;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+  border-radius: 6px;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 4px;
 }
 
 .dashboard-header-text h1 {
