@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import Avatar from './Avatar';
 import './Navbar.css';
 
 function Navbar() {
@@ -29,6 +30,7 @@ function Navbar() {
             </li>
           )}
           <li className="navbar-user">
+            <Avatar nome={user?.nome} perfil={user?.perfil} tamanho="sm" />
             <span className="user-name">{user?.nome}</span>
             <button className="logout-btn" onClick={handleLogout}>
               Sair

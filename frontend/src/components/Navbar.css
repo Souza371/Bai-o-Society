@@ -57,13 +57,17 @@
 .navbar-user {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   margin-left: auto;
 }
 
 .user-name {
   color: #ecf0f1;
-  font-size: 14px;
+  font-size: clamp(12px, 2vw, 14px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: clamp(80px, 20vw, 150px);
 }
 
 .logout-btn {
