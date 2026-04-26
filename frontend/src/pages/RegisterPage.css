@@ -76,7 +76,121 @@
   padding-top: 20px;
   border-top: 1px solid #e0e0e0;
   font-size: 14px;
-  color: #757575;
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 768px) {
+  .register-page {
+    padding: 12px;
+  }
+
+  .register-container {
+    max-width: 100%;
+  }
+
+  .register-card {
+    padding: 35px 25px;
+    border-radius: 8px;
+  }
+
+  .register-header img {
+    width: 65px;
+    height: 65px;
+    margin-bottom: 16px;
+  }
+
+  .register-header h1 {
+    font-size: 22px;
+  }
+
+  .register-header p {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .register-card {
+    padding: 25px 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  .register-header img {
+    width: 55px;
+    height: 55px;
+  }
+
+  .register-header h1 {
+    font-size: 18px;
+    margin: 12px 0 4px;
+  }
+
+  .register-header p {
+    font-size: 11px;
+  }
+
+  .register-footer {
+    font-size: 12px;
+    margin-top: 18px;
+    padding-top: 12px;
+  }
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 768px) {
+  .register-page {
+    padding: 12px;
+  }
+
+  .register-container {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .register-card {
+    padding: 35px 25px;
+    border-radius: 8px;
+  }
+
+  .register-header img {
+    width: 65px;
+    height: 65px;
+    margin-bottom: 16px;
+  }
+
+  .register-header h1 {
+    font-size: 22px;
+  }
+
+  .register-header p {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .register-card {
+    padding: 25px 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  .register-header img {
+    width: 55px;
+    height: 55px;
+  }
+
+  .register-header h1 {
+    font-size: 18px;
+    margin: 12px 0 4px;
+  }
+
+  .register-header p {
+    font-size: 11px;
+  }
+
+  .register-footer {
+    font-size: 12px;
+    margin-top: 18px;
+    padding-top: 12px;
+  }
 }
 
 .register-footer a {
@@ -89,18 +203,4 @@
 .register-footer a:hover {
   color: #0d47a1;
   text-decoration: underline;
-}
-
-.register-footer a:hover {
-  text-decoration: underline;
-}
-
-@media (max-width: 480px) {
-  .register-card {
-    padding: 24px;
-  }
-
-  .register-header h1 {
-    font-size: 24px;
-  }
 }

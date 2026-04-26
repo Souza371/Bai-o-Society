@@ -81,13 +81,93 @@
   background-color: #c0392b;
 }
 
+/* RESPONSIVIDADE */
 @media (max-width: 768px) {
-  .navbar-menu {
-    gap: 15px;
-    font-size: 14px;
+  .navbar-container {
+    padding: 0 12px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .navbar-logo {
+    gap: 8px;
+  }
+
+  .navbar-brasao {
+    width: 32px;
+    height: 32px;
   }
 
   .navbar-logo h1 {
     font-size: 18px;
+  }
+
+  .navbar-menu {
+    gap: 16px;
+    font-size: 13px;
+  }
+
+  .user-name {
+    font-size: 12px;
+  }
+
+  .logout-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 0;
+  }
+
+  .navbar-container {
+    padding: 0 8px;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .navbar-logo {
+    width: 100%;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .navbar-brasao {
+    width: 28px;
+    height: 28px;
+  }
+
+  .navbar-logo h1 {
+    font-size: 16px;
+  }
+
+  .navbar-menu {
+    width: 100%;
+    gap: 12px;
+    font-size: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .navbar-user {
+    width: 100%;
+    justify-content: center;
+    gap: 8px;
+    margin-left: 0;
+    flex-direction: column;
+  }
+
+  .user-name {
+    font-size: 11px;
+    text-align: center;
+  }
+
+  .logout-btn {
+    padding: 6px 12px;
+    font-size: 11px;
+    width: 100%;
+    max-width: 150px;
   }
 }

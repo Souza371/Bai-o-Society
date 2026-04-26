@@ -67,12 +67,6 @@ function LoginPage() {
           <div className="login-footer">
             <p>Não tem conta? <a href="/register">Cadastre-se aqui</a></p>
           </div>
-
-          <div className="demo-credentials">
-            <p><strong>🔐 Credenciais de Teste:</strong></p>
-            <p><strong>Admin:</strong> admin@baiao.com / admin123</p>
-            <p><strong>Cliente:</strong> cliente@baiao.com / cliente123</p>
-          </div>
         </Card>
       </div>
     </div>

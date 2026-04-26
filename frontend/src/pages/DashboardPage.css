@@ -155,6 +155,35 @@
 }
 
 @media (max-width: 768px) {
+  .dashboard-page {
+    padding: 12px;
+  }
+
+  .dashboard-header {
+    margin: 0 auto 20px;
+    padding: 16px;
+    border-radius: 8px;
+  }
+
+  .dashboard-header-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+  }
+
+  .dashboard-brasao {
+    width: 50px;
+    height: 50px;
+  }
+
+  .dashboard-header-text h1 {
+    font-size: 22px;
+  }
+
+  .dashboard-subtitle {
+    font-size: 12px;
+  }
+
   .dashboard-container {
     grid-template-columns: 1fr;
   }
@@ -171,5 +200,54 @@
   .reserva-item .btn {
     width: 100%;
     margin-top: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-page {
+    padding: 8px;
+  }
+
+  .dashboard-header {
+    padding: 12px;
+    margin: 0 auto 16px;
+  }
+
+  .dashboard-brasao {
+    width: 40px;
+    height: 40px;
+  }
+
+  .dashboard-header-text h1 {
+    font-size: 18px;
+  }
+
+  .dashboard-subtitle {
+    font-size: 11px;
+  }
+
+  .quadra-card {
+    padding: 12px;
+  }
+
+  .quadra-card h3 {
+    font-size: 16px;
+  }
+
+  .quadra-card p {
+    font-size: 12px;
+  }
+
+  .reserva-item {
+    padding: 12px;
+    border-left-width: 3px;
+  }
+
+  .reserva-info h4 {
+    font-size: 14px;
+  }
+
+  .reserva-info p {
+    font-size: 12px;
   }
 }
