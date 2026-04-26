@@ -1,9 +1,10 @@
 .reserva-calendario {
-  background-color: white;
-  border-radius: 12px;
+  background: linear-gradient(135deg, #ffffff 0%, #f5f9ff 100%);
+  border-radius: 16px;
   padding: 24px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 24px rgba(21, 101, 192, 0.15);
   margin-bottom: 24px;
+  border: 1px solid rgba(21, 101, 192, 0.1);
 }
 
 .calendario-loading {
@@ -23,35 +24,39 @@
 }
 
 .calendario-header h2 {
-  font-size: 20px;
-  color: #1565c0;
+  font-size: 24px;
+  background: linear-gradient(135deg, #1565c0, #0d47a1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   margin: 0;
   min-width: 200px;
   text-align: center;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .btn-nav {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border: none;
-  background-color: #f5f5f5;
-  color: #333;
-  font-size: 18px;
-  border-radius: 8px;
+  background: linear-gradient(135deg, #1565c0, #0d47a1);
+  color: white;
+  font-size: 20px;
+  border-radius: 10px;
   cursor: pointer;
   transition: all 0.3s ease;
   font-weight: bold;
+  box-shadow: 0 4px 12px rgba(21, 101, 192, 0.3);
 }
 
 .btn-nav:hover {
-  background-color: #1565c0;
-  color: white;
-  transform: scale(1.05);
+  background: linear-gradient(135deg, #0d47a1, #0d2f6d);
+  transform: translateY(-2px) scale(1.08);
+  box-shadow: 0 6px 16px rgba(21, 101, 192, 0.4);
 }
 
 .btn-nav:active {
-  transform: scale(0.95);
+  transform: translateY(0) scale(0.95);
 }
 
 /* TABELA DO CALENDÁRIO */
@@ -65,21 +70,34 @@
 .dias-semana {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  background-color: #1565c0;
+  background: linear-gradient(90deg, #1565c0, #0d47a1, #1565c0);
   gap: 0;
+  border-radius: 12px 12px 0 0;
+  overflow: hidden;
 }
 
 .dia-semana-header {
-  padding: 12px;
+  padding: 14px;
   text-align: center;
   color: white;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 13px;
   border-right: 1px solid rgba(255, 255, 255, 0.2);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.dia-semana-header:nth-child(7) {
+  background: linear-gradient(180deg, rgba(255, 107, 107, 0.3), transparent);
+  border-right: none;
 }
 
 .dia-semana-header:last-child {
   border-right: none;
+}
+
+.dia-semana-header:nth-child(6) {
+  background: linear-gradient(180deg, rgba(255, 107, 107, 0.15), transparent);
 }
 
 .dias-grid {
@@ -91,64 +109,105 @@
 
 .dia-celula {
   aspect-ratio: 1;
-  border: 1px solid #e0e0e0;
+  border: 2px solid #e8eef7;
   padding: 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   background-color: white;
   min-height: 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.dia-celula::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.dia-celula:hover::before {
+  left: 100%;
 }
 
 .dia-celula:hover:not(.vazio):not(.fechado) {
-  background-color: #f0f8ff;
+  background: linear-gradient(135deg, #f0f8ff, #e3f2fd);
   border-color: #1565c0;
-  transform: scale(1.02);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 8px 16px rgba(21, 101, 192, 0.2);
 }
 
 .dia-celula.vazio {
-  background-color: #f9f9f9;
+  background-color: #fafbfc;
   cursor: default;
   border-color: #f0f0f0;
+  opacity: 0.5;
 }
 
 .dia-celula.fechado {
-  background-color: #f5f5f5;
+  background: linear-gradient(135deg, #f5f5f5, #efefef);
   cursor: not-allowed;
-  opacity: 0.6;
+  opacity: 0.5;
+  border-color: #d0d0d0;
 }
 
 .dia-celula.selecionado {
-  background-color: #e3f2fd;
+  background: linear-gradient(135deg, #bbdefb, #90caf9);
   border: 2px solid #1565c0;
   font-weight: bold;
+  box-shadow: 0 8px 20px rgba(21, 101, 192, 0.3);
+  transform: translateY(-4px);
 }
 
 .dia-numero {
-  font-size: 14px;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 4px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 6px;
+  position: relative;
+  z-index: 1;
 }
 
 .dia-info {
-  font-size: 18px;
+  font-size: 24px;
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
 .dia-info .livre {
-  color: #4caf50;
+  color: #22c55e;
+  font-size: 28px;
+  animation: bounce 0.6s ease-in-out infinite;
 }
 
 .dia-info .com-reservas {
-  color: #ff6b6b;
+  color: #ef4444;
+  font-size: 26px;
+  animation: pulse 1.5s ease-in-out infinite;
 }
 
 .dia-info .fechado-icon {
-  color: #999;
+  color: #9ca3af;
+  font-size: 26px;
 }
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.1); opacity: 0.8; }
 
 /* HORÁRIOS */
 .horarios-info {
@@ -218,41 +277,62 @@
 }
 
 .horario-btn {
-  padding: 12px;
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
+  padding: 14px 10px;
+  border: 2px solid #e8eef7;
+  border-radius: 10px;
   background-color: white;
   cursor: pointer;
-  transition: all 0.3s ease;
-  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 700;
   font-size: 13px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.horario-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transition: left 0.5s ease;
 }
 
 .horario-btn.disponivel {
-  color: #4caf50;
-  border-color: #4caf50;
+  color: #22c55e;
+  border-color: #22c55e;
+  background: linear-gradient(135deg, #f0fdf4, #f5f5f5);
 }
 
 .horario-btn.disponivel:hover {
-  background-color: #f1f8e9;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(76, 175, 80, 0.2);
+  background: linear-gradient(135deg, #dcfce7, #f0fdf4);
+  border-color: #16a34a;
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(34, 197, 94, 0.3);
+}
+
+.horario-btn.disponivel:hover::before {
+  left: 100%;
 }
 
 .horario-btn.disponivel.selecionado {
-  background-color: #4caf50;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
   color: white;
-  border-color: #4caf50;
+  border-color: #16a34a;
+  box-shadow: 0 8px 20px rgba(34, 197, 94, 0.4);
+  transform: translateY(-4px) scale(1.05);
 }
 
 .horario-btn.ocupado {
-  color: #999;
-  border-color: #ddd;
-  background-color: #f5f5f5;
+  color: #d1d5db;
+  border-color: #e5e7eb;
+  background: linear-gradient(135deg, #f9fafb, #f3f4f6);
   cursor: not-allowed;
   opacity: 0.6;
 }
@@ -323,31 +403,45 @@
 
 /* INFORMAÇÕES DE FUNCIONAMENTO */
 .info-funcionamento {
-  background-color: #fff3cd;
-  border: 1px solid #ffc107;
-  border-radius: 8px;
-  padding: 16px;
+  background: linear-gradient(135deg, #fef3c7, #fef08a);
+  border: 2px solid #fbbf24;
+  border-radius: 12px;
+  padding: 18px;
   margin-top: 20px;
+  box-shadow: 0 4px 12px rgba(251, 191, 36, 0.15);
 }
 
 .info-funcionamento h4 {
-  margin: 0 0 12px 0;
-  color: #856404;
-  font-size: 14px;
+  margin: 0 0 14px 0;
+  color: #92400e;
+  font-size: 15px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .info-funcionamento ul {
   margin: 0;
-  padding-left: 20px;
+  padding-left: 0;
   list-style: none;
 }
 
 .info-funcionamento li {
-  color: #856404;
+  color: #78350f;
   font-size: 13px;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
   position: relative;
-  padding-left: 16px;
+  padding-left: 24px;
+  font-weight: 500;
+}
+
+.info-funcionamento li::before {
+  content: '⏰';
+  position: absolute;
+  left: 0;
+  font-size: 14px;
+}
 }
 
 .info-funcionamento li:before {

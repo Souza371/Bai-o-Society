@@ -157,6 +157,12 @@
   margin-bottom: 20px;
 }
 
+.shop-section {
+  max-width: 1200px;
+  margin: 40px auto 0;
+  padding: 0 0;
+}
+
 @media (max-width: 768px) {
   .dashboard-page {
     padding: 12px;

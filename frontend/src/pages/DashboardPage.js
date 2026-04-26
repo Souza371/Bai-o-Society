@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { reservaService, quadraService } from '../services';
 import Card from '../components/Card';
 import ReservaModal from '../components/ReservaModal';
+import Shop from '../components/Shop';
+import FloatingContacts from '../components/FloatingContacts';
 import './DashboardPage.css';
 
 function DashboardPage() {
@@ -119,6 +121,10 @@ function DashboardPage() {
         </div>
       </div>
 
+      <div className="shop-section">
+        <Shop />
+      </div>
+
       {showReservaModal && selectedQuadra && (
         <ReservaModal 
           quadra={selectedQuadra}
@@ -126,6 +132,8 @@ function DashboardPage() {
           onSucesso={handleReservaSucesso}
         />
       )}
+
+      <FloatingContacts />
     </div>
   );
 }
