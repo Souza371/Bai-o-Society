@@ -6,6 +6,7 @@ import DashboardPage from './pages/DashboardPage';
 import AdminPage from './pages/AdminPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/Navbar';
+import FloatingContacts from './components/FloatingContacts';
 import { AuthContext } from './context/AuthContext';
 import api from './services/api';
 import './App.css';
@@ -86,6 +87,7 @@ function App() {
             </>
           )}
         </Routes>
+        <FloatingContacts />
       </Router>
     </AuthContext.Provider>
   );

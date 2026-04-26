@@ -108,6 +108,69 @@
   font-size: 14px;
 }
 
+.login-footer p {
+  margin: 0 0 15px 0;
+  color: #666;
+}
+
+.login-footer a {
+  color: #1565c0;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.login-footer a:hover {
+  color: #0d47a1;
+  text-decoration: underline;
+}
+
+.social-contacts {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.social-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 13px;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.whatsapp-button {
+  background-color: #25d366;
+}
+
+.whatsapp-button:hover {
+  background-color: #1ead51;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+}
+
+.instagram-button {
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+}
+
+.instagram-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(224, 148, 51, 0.3);
+}
+
+.social-button svg {
+  width: 18px;
+  height: 18px;
+}
+
 /* RESPONSIVIDADE */
 @media (max-width: 768px) {
   .login-page {
