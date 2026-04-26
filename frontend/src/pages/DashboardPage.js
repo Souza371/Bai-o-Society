@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { reservaService, quadraService } from '../services';
 import Card from '../components/Card';
-import Modal from '../components/Modal';
+import ReservaModal from '../components/ReservaModal';
 import './DashboardPage.css';
 
 function DashboardPage() {
@@ -10,13 +10,6 @@ function DashboardPage() {
   const [loading, setLoading] = useState(false);
   const [showReservaModal, setShowReservaModal] = useState(false);
   const [selectedQuadra, setSelectedQuadra] = useState(null);
-  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
-  const [availableHours, setAvailableHours] = useState([]);
-  const [reservaForm, setReservaForm] = useState({
-    hora_inicio: '',
-    hora_fim: '',
-    observacoes: ''
-  });
 
   useEffect(() => {
     carregarDados();
@@ -38,41 +31,15 @@ function DashboardPage() {
     }
   };
 
-  const handleSelectQuadra = async (quadra) => {
+  const handleSelectQuadra = (quadra) => {
     setSelectedQuadra(quadra);
-    setReservaForm({ hora_inicio: '', hora_fim: '', observacoes: '' });
-    
-    try {
-      const response = await reservaService.horariosLivres(quadra.id, selectedDate);
-      setAvailableHours(response.data.data);
-    } catch (error) {
-      console.error('Erro ao carregar horários:', error);
-    }
-    
     setShowReservaModal(true);
   };
 
-  const handleCreateReserva = async () => {
-    if (!reservaForm.hora_inicio || !reservaForm.hora_fim) {
-      alert('Selecione horário de início e fim');
-      return;
-    }
-
-    try {
-      await reservaService.criar({
-        quadra_id: selectedQuadra.id,
-        data: selectedDate,
-        hora_inicio: reservaForm.hora_inicio,
-        hora_fim: reservaForm.hora_fim,
-        observacoes: reservaForm.observacoes
-      });
-
-      alert('Reserva criada com sucesso!');
-      setShowReservaModal(false);
-      carregarDados();
-    } catch (error) {
-      alert(error.response?.data?.message || 'Erro ao criar reserva');
-    }
+  const handleReservaSucesso = () => {
+    setShowReservaModal(false);
+    setSelectedQuadra(null);
+    carregarDados();
   };
 
   const handleDeleteReserva = async (id) => {
@@ -180,29 +147,16 @@ function DashboardPage() {
                 <option key={idx} value={hour.hora_inicio}>
                   {hour.hora_inicio} {hour.disponivel ? '(Livre)' : '(Ocupado)'}
                 </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="form-group">
-            <label>Horário de Término</label>
-            <input
-              type="time"
-              value={reservaForm.hora_fim}
-              onChange={(e) => setReservaForm({ ...reservaForm, hora_fim: e.target.value })}
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Observações</label>
-            <textarea
-              value={reservaForm.observacoes}
-              onChange={(e) => setReservaForm({ ...reservaForm, observacoes: e.target.value })}
-              placeholder="Adicione observações (opcional)"
-            />
-          </div>
         </div>
-      </Modal>
+      </div>
+
+      {showReservaModal && selectedQuadra && (
+        <ReservaModal 
+          quadra={selectedQuadra}
+          onClose={() => setShowReservaModal(false)}
+          onSucesso={handleReservaSucesso}
+        />
+      )}
     </div>
   );
 }

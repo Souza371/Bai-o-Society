@@ -9,6 +9,10 @@ const router = express.Router();
  * Base: /api/reservas
  */
 
+// Calendario de disponibilidades
+// GET /api/reservas/calendario?mes=4&ano=2026
+router.get('/calendario/disponibilidades', reservaController.obterCalendario);
+
 // Horários livres de uma quadra
 // GET /api/reservas/horarios-livres?quadra_id=1&data=2026-04-25
 router.get('/horarios-livres', reservaController.horariosLivres);

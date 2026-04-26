@@ -202,6 +202,80 @@ class ReservaService {
     const horas = minutos / 60;
     return parseFloat((horas * preco_hora).toFixed(2));
   }
+
+  /**
+   * Buscar disponibilidades de um calendário
+   */
+  async buscarDisponibilidades(mes, ano, Reserva) {
+    const { gerarIntervalosHorarios, HORARIOS_FUNCIONAMENTO, getNomeDia } = require('../config/horarios');
+    
+    const diasDoMes = [];
+    const ultimoDia = new Date(ano, mes, 0).getDate();
+
+    // Para cada dia do mês
+    for (let dia = 1; dia <= ultimoDia; dia++) {
+      const data = new Date(ano, mes - 1, dia);
+      const dataFormatada = data.toISOString().split('T')[0];
+      const diaSemanaPrimeiro = data.getDay();
+      const config = HORARIOS_FUNCIONAMENTO[diaSemanaPrimeiro];
+
+      // Se não está aberto, marcar como fechado
+      if (!config.aberto) {
+        diasDoMes.push({
+          data: dataFormatada,
+          dia,
+          nomeDia: config.nome,
+          aberto: false,
+          horarios: [],
+          reservadas: []
+        });
+        continue;
+      }
+
+      // Gerar intervalos de horário disponível
+      const horarios = gerarIntervalosHorarios(diaSemanaPrimeiro);
+
+      // Buscar reservas do dia
+      const reservas = await Reserva.findAll({
+        where: {
+          data: dataFormatada
+        },
+        attributes: ['hora_inicio', 'hora_fim', 'quadra_id'],
+        raw: true
+      });
+
+      // Marcar horários como reservados
+      const horariosComStatus = horarios.map(hora => {
+        const [h] = hora.split(':').map(Number);
+        const estaReservado = reservas.some(r => {
+          const [hInicio] = r.hora_inicio.split(':').map(Number);
+          const [hFim] = r.hora_fim.split(':').map(Number);
+          return h >= hInicio && h < hFim;
+        });
+
+        return {
+          hora,
+          disponivel: !estaReservado,
+          reservadas: reservas.filter(r => {
+            const [hInicio] = r.hora_inicio.split(':').map(Number);
+            const [hFim] = r.hora_fim.split(':').map(Number);
+            return h >= hInicio && h < hFim;
+          })
+        };
+      });
+
+      diasDoMes.push({
+        data: dataFormatada,
+        dia,
+        nomeDia: getNomeDia(dataFormatada),
+        aberto: true,
+        horarios: horariosComStatus,
+        reservadas: reservas
+      });
+    }
+
+    return diasDoMes;
+  }
 }
 
 module.exports = new ReservaService();

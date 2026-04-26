@@ -1,0 +1,478 @@
+.reserva-calendario {
+  background-color: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 24px;
+}
+
+.calendario-loading {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+  font-size: 16px;
+}
+
+/* HEADER - Navegação de Mês */
+.calendario-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  gap: 16px;
+}
+
+.calendario-header h2 {
+  font-size: 20px;
+  color: #1565c0;
+  margin: 0;
+  min-width: 200px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.btn-nav {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background-color: #f5f5f5;
+  color: #333;
+  font-size: 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: bold;
+}
+
+.btn-nav:hover {
+  background-color: #1565c0;
+  color: white;
+  transform: scale(1.05);
+}
+
+.btn-nav:active {
+  transform: scale(0.95);
+}
+
+/* TABELA DO CALENDÁRIO */
+.calendario-tabela {
+  margin-bottom: 24px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #e0e0e0;
+}
+
+.dias-semana {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background-color: #1565c0;
+  gap: 0;
+}
+
+.dia-semana-header {
+  padding: 12px;
+  text-align: center;
+  color: white;
+  font-weight: 600;
+  font-size: 13px;
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dia-semana-header:last-child {
+  border-right: none;
+}
+
+.dias-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0;
+  background-color: #fafafa;
+}
+
+.dia-celula {
+  aspect-ratio: 1;
+  border: 1px solid #e0e0e0;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: white;
+  min-height: 80px;
+}
+
+.dia-celula:hover:not(.vazio):not(.fechado) {
+  background-color: #f0f8ff;
+  border-color: #1565c0;
+  transform: scale(1.02);
+}
+
+.dia-celula.vazio {
+  background-color: #f9f9f9;
+  cursor: default;
+  border-color: #f0f0f0;
+}
+
+.dia-celula.fechado {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.dia-celula.selecionado {
+  background-color: #e3f2fd;
+  border: 2px solid #1565c0;
+  font-weight: bold;
+}
+
+.dia-numero {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.dia-info {
+  font-size: 18px;
+}
+
+.dia-info .livre {
+  color: #4caf50;
+}
+
+.dia-info .com-reservas {
+  color: #ff6b6b;
+}
+
+.dia-info .fechado-icon {
+  color: #999;
+}
+
+/* HORÁRIOS */
+.horarios-info {
+  background-color: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 20px;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.horarios-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.horarios-header h3 {
+  margin: 0;
+  color: #1565c0;
+  font-size: 16px;
+}
+
+.btn-fechar {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background-color: #e0e0e0;
+  color: #666;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-fechar:hover {
+  background-color: #d0d0d0;
+  color: #333;
+}
+
+.data-selecionada {
+  color: #666;
+  margin: 8px 0 16px 0;
+  font-size: 14px;
+}
+
+.horarios-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.horario-btn {
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.horario-btn.disponivel {
+  color: #4caf50;
+  border-color: #4caf50;
+}
+
+.horario-btn.disponivel:hover {
+  background-color: #f1f8e9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(76, 175, 80, 0.2);
+}
+
+.horario-btn.disponivel.selecionado {
+  background-color: #4caf50;
+  color: white;
+  border-color: #4caf50;
+}
+
+.horario-btn.ocupado {
+  color: #999;
+  border-color: #ddd;
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.hora-texto {
+  font-size: 14px;
+}
+
+.hora-status {
+  font-size: 12px;
+}
+
+.horario-resumo {
+  background-color: #e8f5e9;
+  border-left: 4px solid #4caf50;
+  padding: 12px;
+  border-radius: 4px;
+  color: #2e7d32;
+  font-size: 14px;
+}
+
+/* LEGENDA */
+.calendario-legenda {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  margin: 20px 0;
+  padding: 16px;
+  background-color: #f0f8ff;
+  border-radius: 8px;
+  flex-wrap: wrap;
+}
+
+.legenda-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #555;
+}
+
+.legenda-livre,
+.legenda-reservado,
+.legenda-fechado {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.legenda-livre {
+  color: #4caf50;
+  background-color: #e8f5e9;
+}
+
+.legenda-reservado {
+  color: #ff6b6b;
+  background-color: #ffebee;
+}
+
+.legenda-fechado {
+  color: #999;
+  background-color: #f5f5f5;
+}
+
+/* INFORMAÇÕES DE FUNCIONAMENTO */
+.info-funcionamento {
+  background-color: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 20px;
+}
+
+.info-funcionamento h4 {
+  margin: 0 0 12px 0;
+  color: #856404;
+  font-size: 14px;
+}
+
+.info-funcionamento ul {
+  margin: 0;
+  padding-left: 20px;
+  list-style: none;
+}
+
+.info-funcionamento li {
+  color: #856404;
+  font-size: 13px;
+  margin-bottom: 4px;
+  position: relative;
+  padding-left: 16px;
+}
+
+.info-funcionamento li:before {
+  content: '⏰';
+  position: absolute;
+  left: 0;
+  margin-right: 8px;
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 768px) {
+  .reserva-calendario {
+    padding: 16px;
+  }
+
+  .calendario-header {
+    gap: 8px;
+  }
+
+  .calendario-header h2 {
+    font-size: 18px;
+    min-width: 150px;
+  }
+
+  .btn-nav {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+
+  .dia-celula {
+    min-height: 60px;
+    padding: 4px;
+  }
+
+  .dia-numero {
+    font-size: 12px;
+  }
+
+  .dia-info {
+    font-size: 14px;
+  }
+
+  .horarios-grid {
+    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+    gap: 6px;
+  }
+
+  .horario-btn {
+    padding: 10px;
+    font-size: 12px;
+  }
+
+  .calendario-legenda {
+    gap: 12px;
+    font-size: 12px;
+  }
+
+  .info-funcionamento {
+    padding: 12px;
+  }
+
+  .info-funcionamento h4 {
+    font-size: 13px;
+  }
+
+  .info-funcionamento li {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .reserva-calendario {
+    padding: 12px;
+  }
+
+  .calendario-header {
+    margin-bottom: 16px;
+  }
+
+  .calendario-header h2 {
+    font-size: 16px;
+    min-width: 120px;
+  }
+
+  .btn-nav {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+
+  .dia-celula {
+    min-height: 50px;
+    padding: 2px;
+  }
+
+  .dia-numero {
+    font-size: 11px;
+  }
+
+  .dia-info {
+    font-size: 12px;
+  }
+
+  .horarios-info {
+    padding: 16px;
+  }
+
+  .horarios-grid {
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    gap: 4px;
+  }
+
+  .horario-btn {
+    padding: 8px;
+    font-size: 11px;
+  }
+
+  .calendario-legenda {
+    gap: 8px;
+    font-size: 11px;
+    flex-direction: column;
+  }
+
+  .legenda-item {
+    justify-content: space-between;
+  }
+}

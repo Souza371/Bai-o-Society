@@ -183,6 +183,37 @@ class ReservaController {
     }
   }
 
+  /**
+   * GET /api/reservas/calendario/disponibilidades - Obter calendário com disponibilidades
+   */
+  async obterCalendario(req, res) {
+    try {
+      const { mes, ano } = req.query;
+      
+      if (!mes || !ano) {
+        return res.status(400).json({
+          status: 'error',
+          message: 'Mês e ano são obrigatórios',
+          code: 'PARAMETROS_INVALIDOS'
+        });
+      }
+
+      const calendario = await reservaService.buscarDisponibilidades(
+        parseInt(mes),
+        parseInt(ano),
+        req.app.get('db').Reserva
+      );
+
+      res.json({
+        status: 'success',
+        message: 'Calendário obtido com sucesso',
+        data: calendario
+      });
+    } catch (erro) {
+      this.handleError(erro, res);
+    }
+  }
+
   handleError(erro, res) {
     console.error('ReservaController Error:', erro);
 
