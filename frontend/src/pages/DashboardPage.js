@@ -91,7 +91,13 @@ function DashboardPage() {
   return (
     <div className="dashboard-page">
       <div className="dashboard-header">
-        <h1>Dashboard de Reservas</h1>
+        <div className="dashboard-header-content">
+          <img src="/brasao.svg" alt="Baião Society" className="dashboard-brasao" />
+          <div className="dashboard-header-text">
+            <h1>Dashboard de Reservas</h1>
+            <p className="dashboard-subtitle">Baião Society - Sistema de Gestão de Quadras</p>
+          </div>
+        </div>
       </div>
 
       <div className="dashboard-container">

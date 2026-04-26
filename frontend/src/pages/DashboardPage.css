@@ -7,15 +7,37 @@
 .dashboard-header {
   max-width: 1200px;
   margin: 0 auto 30px;
-  padding: 20px;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 25px;
+  background: linear-gradient(135deg, #1565c0 0%, #1976d2 100%);
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  color: white;
 }
 
-.dashboard-header h1 {
-  color: #2c3e50;
+.dashboard-header-content {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.dashboard-brasao {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.dashboard-header-text h1 {
+  color: white;
   margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.dashboard-subtitle {
+  color: rgba(255, 255, 255, 0.85);
+  margin: 5px 0 0 0;
+  font-size: 14px;
 }
 
 .dashboard-container {

@@ -17,10 +17,23 @@
   padding: 0 20px;
 }
 
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.navbar-brasao {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
 .navbar-logo h1 {
   font-size: 24px;
   margin: 0;
   padding: 16px 0;
+  font-weight: 700;
 }
 
 .navbar-menu {
