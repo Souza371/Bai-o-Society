@@ -119,37 +119,6 @@ function DashboardPage() {
         </div>
       </div>
 
-      <Modal
-        isOpen={showReservaModal}
-        title={`Reservar ${selectedQuadra?.nome}`}
-        onClose={() => setShowReservaModal(false)}
-        onConfirm={handleCreateReserva}
-        confirmText="Confirmar Reserva"
-      >
-        <div className="reserva-modal-content">
-          <div className="form-group">
-            <label>Data</label>
-            <input
-              type="date"
-              value={selectedDate}
-              onChange={(e) => setSelectedDate(e.target.value)}
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Horário de Início</label>
-            <select
-              value={reservaForm.hora_inicio}
-              onChange={(e) => setReservaForm({ ...reservaForm, hora_inicio: e.target.value })}
-            >
-              <option value="">Selecione</option>
-              {availableHours.map((hour, idx) => (
-                <option key={idx} value={hour.hora_inicio}>
-                  {hour.hora_inicio} {hour.disponivel ? '(Livre)' : '(Ocupado)'}
-                </option>
-        </div>
-      </div>
-
       {showReservaModal && selectedQuadra && (
         <ReservaModal 
           quadra={selectedQuadra}
