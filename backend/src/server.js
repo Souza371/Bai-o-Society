@@ -101,7 +101,7 @@ const startServer = async () => {
     console.log('✅ Conexão com banco de dados estabelecida');
 
     // Sincronizar models com BD (criar tabelas se não existirem)
-    await sequelize.sync({ alter: true }); // alter: true = ajustar tabelas existentes
+    await sequelize.sync();
     console.log('✅ Modelos sincronizados com banco de dados');
 
     // Iniciar servidor

@@ -29,28 +29,12 @@ module.exports = {
       }
     ], {});
 
-    // Criar quadras demo
+    // Criar quadra demo
     await queryInterface.bulkInsert('quadras', [
       {
-        nome: 'Quadra A - Society',
-        metragem: 420,
-        preco_hora: 150.00,
-        ativa: true,
-        criado_em: new Date(),
-        atualizado_em: new Date()
-      },
-      {
-        nome: 'Quadra B - Campo',
+        nome: 'Campo Baião Society',
         metragem: 500,
-        preco_hora: 180.00,
-        ativa: true,
-        criado_em: new Date(),
-        atualizado_em: new Date()
-      },
-      {
-        nome: 'Quadra C - Poliesportiva',
-        metragem: 600,
-        preco_hora: 200.00,
+        preco_hora: 150.00,
         ativa: true,
         criado_em: new Date(),
         atualizado_em: new Date()
