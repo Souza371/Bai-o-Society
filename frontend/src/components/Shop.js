@@ -4,10 +4,143 @@ import './Shop.css';
 const Shop = () => {
   const [carrinho, setCarrinho] = useState([]);
   const [mostrarCarrinho, setMostrarCarrinho] = useState(false);
+  const [abaAtiva, setAbaAtiva] = useState('utensílios');
 
-  const produtos = [
+  const produtosUtensílios = [
     {
       id: 1,
+      nome: 'Bola de Futsal Premium',
+      preco: 89.90,
+      categoria: 'Bolas',
+      emoji: '⚽',
+      cor: '#ff6b6b',
+      descricao: 'Bola oficial para futsal'
+    },
+    {
+      id: 2,
+      nome: 'Coletes de Treino',
+      preco: 45.90,
+      categoria: 'Equipamento',
+      emoji: '🦺',
+      cor: '#fbbf24',
+      descricao: 'Conjunto com 10 coletes'
+    },
+    {
+      id: 3,
+      nome: 'Garrafas Reutilizáveis',
+      preco: 34.90,
+      categoria: 'Garrafas',
+      emoji: '🧴',
+      cor: '#22c55e',
+      descricao: 'Garrafa 500ml com alça'
+    },
+    {
+      id: 4,
+      nome: 'Sacola Desportiva',
+      preco: 79.90,
+      categoria: 'Mochilas',
+      emoji: '🎒',
+      cor: '#1565c0',
+      descricao: 'Mochila grande para treino'
+    },
+    {
+      id: 5,
+      nome: 'Colchonete de Yoga',
+      preco: 59.90,
+      categoria: 'Acessórios',
+      emoji: '🧘',
+      cor: '#ec4899',
+      descricao: 'Colchonete anti-derrapante'
+    },
+    {
+      id: 6,
+      nome: 'Toalha de Microfibra',
+      preco: 39.90,
+      categoria: 'Toalhas',
+      emoji: '🧣',
+      cor: '#6b7280',
+      descricao: 'Toalha rápida absorção'
+    },
+  ];
+
+  const produtosComidas = [
+    {
+      id: 7,
+      nome: 'Água Mineral (500ml)',
+      preco: 3.90,
+      categoria: 'Bebidas',
+      emoji: '💧',
+      cor: '#06b6d4',
+      descricao: 'Garrafa de água gelada'
+    },
+    {
+      id: 8,
+      nome: 'Refrigerante (2L)',
+      preco: 9.90,
+      categoria: 'Bebidas',
+      emoji: '🥤',
+      cor: '#ef4444',
+      descricao: 'Refrigerante gelado'
+    },
+    {
+      id: 9,
+      nome: 'Suco Natural',
+      preco: 8.90,
+      categoria: 'Bebidas',
+      emoji: '🧃',
+      cor: '#f59e0b',
+      descricao: 'Suco natural de frutas'
+    },
+    {
+      id: 10,
+      nome: 'Energético',
+      preco: 12.90,
+      categoria: 'Bebidas',
+      emoji: '⚡',
+      cor: '#a78bfa',
+      descricao: 'Bebida energética 250ml'
+    },
+    {
+      id: 11,
+      nome: 'Lanches Variados',
+      preco: 15.90,
+      categoria: 'Comidas',
+      emoji: '🍿',
+      cor: '#f97316',
+      descricao: 'Mix de lanches saudáveis'
+    },
+    {
+      id: 12,
+      nome: 'Barra de Proteína',
+      preco: 7.90,
+      categoria: 'Comidas',
+      emoji: '🍫',
+      cor: '#8b5cf6',
+      descricao: 'Barra com 25g de proteína'
+    },
+    {
+      id: 13,
+      nome: 'Pizza Congelada',
+      preco: 29.90,
+      categoria: 'Comidas',
+      emoji: '🍕',
+      cor: '#dc2626',
+      descricao: 'Pizza grande para 4 pessoas'
+    },
+    {
+      id: 14,
+      nome: 'Sanduíche Gourmet',
+      preco: 22.90,
+      categoria: 'Comidas',
+      emoji: '🥪',
+      cor: '#d97706',
+      descricao: 'Sanduíche pronto para comer'
+    },
+  ];
+
+  const produtosMerchandise = [
+    {
+      id: 15,
       nome: 'Boné Baião Society',
       preco: 49.90,
       categoria: 'Bonés',
@@ -16,25 +149,7 @@ const Shop = () => {
       descricao: 'Boné premium com logo bordado'
     },
     {
-      id: 2,
-      nome: 'Caneca Personalizada',
-      preco: 39.90,
-      categoria: 'Canecas',
-      emoji: '☕',
-      cor: '#ff6b6b',
-      descricao: 'Caneca cerâmica 350ml'
-    },
-    {
-      id: 3,
-      nome: 'Copo Térmico',
-      preco: 59.90,
-      categoria: 'Copos',
-      emoji: '🥤',
-      cor: '#22c55e',
-      descricao: 'Copo térmico 500ml inox'
-    },
-    {
-      id: 4,
+      id: 16,
       nome: 'Camiseta Branca',
       preco: 79.90,
       categoria: 'Camisetas',
@@ -43,7 +158,7 @@ const Shop = () => {
       descricao: 'Camiseta 100% algodão'
     },
     {
-      id: 5,
+      id: 17,
       nome: 'Camiseta Preta',
       preco: 79.90,
       categoria: 'Camisetas',
@@ -52,7 +167,7 @@ const Shop = () => {
       descricao: 'Camiseta 100% algodão premium'
     },
     {
-      id: 6,
+      id: 18,
       nome: 'Boné Vermelho',
       preco: 49.90,
       categoria: 'Bonés',
@@ -60,7 +175,38 @@ const Shop = () => {
       cor: '#ef4444',
       descricao: 'Boné vermelho com detalhe branco'
     },
+    {
+      id: 19,
+      nome: 'Caneca Personalizada',
+      preco: 39.90,
+      categoria: 'Canecas',
+      emoji: '☕',
+      cor: '#ff6b6b',
+      descricao: 'Caneca cerâmica 350ml'
+    },
+    {
+      id: 20,
+      nome: 'Copo Térmico',
+      preco: 59.90,
+      categoria: 'Copos',
+      emoji: '🥤',
+      cor: '#22c55e',
+      descricao: 'Copo térmico 500ml inox'
+    },
   ];
+
+  const getProdutosABA = () => {
+    switch(abaAtiva) {
+      case 'utensílios':
+        return produtosUtensílios;
+      case 'comidas':
+        return produtosComidas;
+      case 'merchandise':
+        return produtosMerchandise;
+      default:
+        return [];
+    }
+  };
 
   const adicionarAoCarrinho = (produto) => {
     const itemExistente = carrinho.find(item => item.id === produto.id);
@@ -159,8 +305,29 @@ const Shop = () => {
         </div>
       )}
 
+      <div className="shop-abas">
+        <button
+          className={`aba ${abaAtiva === 'utensílios' ? 'ativa' : ''}`}
+          onClick={() => setAbaAtiva('utensílios')}
+        >
+          🏃 Utensílios & Conveniência
+        </button>
+        <button
+          className={`aba ${abaAtiva === 'comidas' ? 'ativa' : ''}`}
+          onClick={() => setAbaAtiva('comidas')}
+        >
+          🍔 Comidas & Bebidas
+        </button>
+        <button
+          className={`aba ${abaAtiva === 'merchandise' ? 'ativa' : ''}`}
+          onClick={() => setAbaAtiva('merchandise')}
+        >
+          👕 Merchandise
+        </button>
+      </div>
+
       <div className="produtos-grid">
-        {produtos.map(produto => (
+        {getProdutosABA().map(produto => (
           <div key={produto.id} className="produto-card">
             <div className="produto-emoji" style={{ backgroundColor: produto.cor }}>
               {produto.emoji}
