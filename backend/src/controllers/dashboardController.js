@@ -6,6 +6,15 @@ const dashboardService = require('../services/dashboardService');
  */
 
 class DashboardController {
+  constructor() {
+    this.faturamentoMes = this.faturamentoMes.bind(this);
+    this.ocupacaoQuadras = this.ocupacaoQuadras.bind(this);
+    this.horariosMaisAlugados = this.horariosMaisAlugados.bind(this);
+    this.metodosPagamento = this.metodosPagamento.bind(this);
+    this.estatisticas = this.estatisticas.bind(this);
+    this.handleError = this.handleError.bind(this);
+  }
+
   /**
    * GET /api/dashboard/faturamento-mes - Faturamento do mês atual
    */

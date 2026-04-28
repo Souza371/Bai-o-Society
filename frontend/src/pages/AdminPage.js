@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { quadraService, dashboardService, reservaService } from '../services';
+import { quadraService, dashboardService, reservaService, authService } from '../services';
 import Card from '../components/Card';
 import Modal from '../components/Modal';
+import Avatar from '../components/Avatar';
 import './AdminPage.css';
 
 function AdminPage() {
   const [quadras, setQuadras] = useState([]);
   const [metricas, setMetricas] = useState(null);
   const [reservas, setReservas] = useState([]);
+  const [clientes, setClientes] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showQuadraModal, setShowQuadraModal] = useState(false);
   const [editingQuadraId, setEditingQuadraId] = useState(null);
@@ -28,14 +30,16 @@ function AdminPage() {
   const carregarDados = async () => {
     setLoading(true);
     try {
-      const [quadrasRes, metricasRes, reservasRes] = await Promise.all([
+      const [quadrasRes, metricasRes, reservasRes, clientesRes] = await Promise.all([
         quadraService.listar(),
         dashboardService.getMetricas(),
-        reservaService.listar({})
+        reservaService.listar({}),
+        authService.listarUsuarios()
       ]);
       setQuadras(quadrasRes.data.data);
       setMetricas(metricasRes.data.data);
       setReservas(reservasRes.data.data);
+      setClientes(clientesRes.data.data || []);
     } catch (error) {
       console.error('Erro ao carregar dados:', error);
     } finally {
@@ -242,6 +246,42 @@ function AdminPage() {
               ))}
             </div>
           </Card>
+        </div>
+
+        <div className="clientes-management">
+          <div className="section-header">
+            <h2>Clientes cadastrados</h2>
+            <span className="clientes-count">{clientes.filter((cliente) => cliente.perfil === 'cliente').length} contas</span>
+          </div>
+
+          <div className="clientes-grid">
+            {clientes
+              .filter((cliente) => cliente.perfil === 'cliente')
+              .map((cliente) => (
+                <Card key={cliente.id} className="cliente-card">
+                  <div className="cliente-card-header">
+                    <Avatar
+                      nome={cliente.nome}
+                      perfil={cliente.perfil}
+                      fotoUrl={cliente.avatar_url}
+                      tamanho="lg"
+                    />
+                    <div>
+                      <h3>{cliente.nome}</h3>
+                      <p>{cliente.email}</p>
+                    </div>
+                  </div>
+
+                  <div className="cliente-card-info">
+                    <p><strong>Telefone:</strong> {cliente.telefone || 'Não informado'}</p>
+                    <p>
+                      <strong>Criado em:</strong>{' '}
+                      {cliente.criado_em ? new Date(cliente.criado_em).toLocaleString('pt-BR') : 'Não disponível'}
+                    </p>
+                  </div>
+                </Card>
+              ))}
+          </div>
         </div>
       </div>
 

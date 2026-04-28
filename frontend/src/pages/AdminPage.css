@@ -180,6 +180,50 @@ table tr:hover {
   align-items: center;
 }
 
+.clientes-management {
+  margin-top: 30px;
+}
+
+.clientes-count {
+  color: #6b7b88;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.clientes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.cliente-card {
+  padding: 20px;
+}
+
+.cliente-card-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.cliente-card-header h3 {
+  margin: 0;
+  color: #2c3e50;
+}
+
+.cliente-card-header p {
+  margin: 4px 0 0;
+  color: #6b7b88;
+  font-size: 14px;
+}
+
+.cliente-card-info p {
+  margin: 8px 0 0;
+  color: #44546a;
+  font-size: 14px;
+}
+
 @media (max-width: 768px) {
   .admin-header p {
     font-size: 13px;
@@ -188,6 +232,10 @@ table tr:hover {
   .btn-editar {
     margin-right: 6px;
     margin-bottom: 6px;
+  }
+
+  .clientes-grid {
+    grid-template-columns: 1fr;
   }
 }
 

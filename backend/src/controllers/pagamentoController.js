@@ -6,6 +6,18 @@ const pagamentoService = require('../services/pagamentoService');
  */
 
 class PagamentoController {
+  constructor() {
+    this.listar = this.listar.bind(this);
+    this.buscar = this.buscar.bind(this);
+    this.registrar = this.registrar.bind(this);
+    this.confirmar = this.confirmar.bind(this);
+    this.cancelar = this.cancelar.bind(this);
+    this.faturamento = this.faturamento.bind(this);
+    this.faturamentoPorMetodo = this.faturamentoPorMetodo.bind(this);
+    this.pendentes = this.pendentes.bind(this);
+    this.handleError = this.handleError.bind(this);
+  }
+
   /**
    * GET /api/pagamentos - Listar pagamentos
    */

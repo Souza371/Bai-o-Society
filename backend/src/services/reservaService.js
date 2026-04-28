@@ -11,7 +11,16 @@ class ReservaService {
    * Criar nova reserva
    */
   async criar(dados, sequelize, Reserva, Quadra, Pagamento, Usuario) {
-    const { quadra_id, data, hora_inicio, hora_fim, observacoes, usuario_id } = dados;
+    const { quadra_id, data, hora_inicio, hora_fim, observacoes, usuario_id, metodo_pagamento } = dados;
+    const metodosValidos = ['dinheiro', 'cartao', 'pix', 'boleto'];
+    if (metodo_pagamento && !metodosValidos.includes(metodo_pagamento)) {
+      throw {
+        status: 400,
+        message: 'Método de pagamento inválido',
+        code: 'METODO_PAGAMENTO_INVALIDO'
+      };
+    }
+
 
     // Validações
     if (!quadra_id || !data || !hora_inicio || !hora_fim) {
@@ -87,6 +96,7 @@ class ReservaService {
       reserva_id: reserva.id,
       usuario_id,
       valor,
+      metodo: metodo_pagamento || 'dinheiro',
       status: 'pendente'
     });
 
@@ -96,8 +106,13 @@ class ReservaService {
   /**
    * Listar reservas com filtros
    */
-  async listar(filtros, Reserva, Usuario, Quadra) {
+  async listar(filtros, Reserva, Usuario, Quadra, Pagamento) {
     const where = {};
+
+    const include = [];
+    if (Usuario) include.push({ model: Usuario, attributes: ['id', 'nome', 'email'] });
+    if (Quadra) include.push({ model: Quadra, attributes: ['id', 'nome'] });
+    if (Pagamento) include.push({ model: Pagamento, attributes: ['id', 'valor', 'metodo', 'status', 'data_pagamento'] });
 
     if (filtros.quadra_id) where.quadra_id = filtros.quadra_id;
     if (filtros.usuario_id) where.usuario_id = filtros.usuario_id;
@@ -106,10 +121,7 @@ class ReservaService {
 
     const reservas = await Reserva.findAll({
       where,
-      include: [
-        { model: Usuario, attributes: ['id', 'nome', 'email'] },
-        { model: Quadra, attributes: ['id', 'nome'] }
-      ],
+      include,
       order: [['data', 'DESC']]
     });
 
@@ -119,12 +131,14 @@ class ReservaService {
   /**
    * Buscar reserva por ID
    */
-  async buscarPorId(id, Reserva, Usuario, Quadra) {
+  async buscarPorId(id, Reserva, Usuario, Quadra, Pagamento) {
+    const include = [];
+    if (Usuario) include.push({ model: Usuario, attributes: ['id', 'nome', 'email'] });
+    if (Quadra) include.push({ model: Quadra, attributes: ['id', 'nome'] });
+    if (Pagamento) include.push({ model: Pagamento, attributes: ['id', 'valor', 'metodo', 'status', 'data_pagamento'] });
+
     const reserva = await Reserva.findByPk(id, {
-      include: [
-        { model: Usuario, attributes: ['id', 'nome', 'email'] },
-        { model: Quadra, attributes: ['id', 'nome'] }
-      ]
+      include
     });
 
     if (!reserva) {
@@ -141,16 +155,57 @@ class ReservaService {
   /**
    * Atualizar reserva
    */
-  async atualizar(id, dados, sequelize, Reserva, Quadra) {
-    const { data, hora_inicio, hora_fim } = dados;
+  async atualizar(id, dados, sequelize, Reserva, Quadra, Pagamento) {
+    const { data, hora_inicio, hora_fim, observacoes, metodo_pagamento } = dados;
 
-    const reserva = await this.buscarPorId(id, Reserva);
+    const reserva = await this.buscarPorId(id, Reserva, null, null, Pagamento);
+
+    if (reserva.status === 'cancelada') {
+      throw {
+        status: 400,
+        message: 'Não é possível editar uma reserva cancelada',
+        code: 'RESERVA_CANCELADA'
+      };
+    }
+
+    const metodosValidos = ['dinheiro', 'cartao', 'pix', 'boleto'];
+    if (metodo_pagamento && !metodosValidos.includes(metodo_pagamento)) {
+      throw {
+        status: 400,
+        message: 'Método de pagamento inválido',
+        code: 'METODO_PAGAMENTO_INVALIDO'
+      };
+    }
+
+    if (hora_inicio && !validacaoHorarios.isValidHorario(hora_inicio)) {
+      throw {
+        status: 400,
+        message: 'Formato de horário inválido para hora de início (use HH:MM)',
+        code: 'HORARIO_INVALIDO'
+      };
+    }
+
+    if (hora_fim && !validacaoHorarios.isValidHorario(hora_fim)) {
+      throw {
+        status: 400,
+        message: 'Formato de horário inválido para hora de fim (use HH:MM)',
+        code: 'HORARIO_INVALIDO'
+      };
+    }
 
     // Se editando horário, validar conflito
     if (data || hora_inicio || hora_fim) {
       const dataFinal = data || reserva.data;
       const horaInicialFinal = hora_inicio || reserva.hora_inicio;
       const horaFinalFinal = hora_fim || reserva.hora_fim;
+
+      if (!validacaoHorarios.horarioValido(horaInicialFinal, horaFinalFinal)) {
+        throw {
+          status: 400,
+          message: 'Hora de fim deve ser maior que hora de início',
+          code: 'HORARIO_INVALIDO'
+        };
+      }
 
       const conflito = await validacaoHorarios.verificarConflito(
         sequelize,
@@ -171,16 +226,54 @@ class ReservaService {
       }
     }
 
-    return reserva.update(dados);
+    const dadosAtualizacao = {};
+    if (data) dadosAtualizacao.data = data;
+    if (hora_inicio) dadosAtualizacao.hora_inicio = hora_inicio;
+    if (hora_fim) dadosAtualizacao.hora_fim = hora_fim;
+    if (observacoes !== undefined) dadosAtualizacao.observacoes = observacoes;
+
+    const reservaAtualizada = await reserva.update(dadosAtualizacao);
+
+    const pagamento = await Pagamento.findOne({ where: { reserva_id: id } });
+    if (pagamento) {
+      if (metodo_pagamento) {
+        pagamento.metodo = metodo_pagamento;
+      }
+
+      if (data || hora_inicio || hora_fim) {
+        const quadra = await Quadra.findByPk(reserva.quadra_id);
+        if (quadra) {
+          pagamento.valor = this.calcularValorReserva(
+            reservaAtualizada.hora_inicio,
+            reservaAtualizada.hora_fim,
+            quadra.preco_hora
+          );
+        }
+      }
+
+      await pagamento.save();
+    }
+
+    return this.buscarPorId(id, Reserva, null, null, Pagamento);
   }
 
   /**
    * Cancelar reserva
    */
-  async cancelar(id, Reserva) {
+  async cancelar(id, Reserva, Pagamento) {
     const reserva = await this.buscarPorId(id, Reserva);
     reserva.status = 'cancelada';
-    return reserva.save();
+    await reserva.save();
+
+    if (Pagamento) {
+      const pagamento = await Pagamento.findOne({ where: { reserva_id: id } });
+      if (pagamento && pagamento.status === 'pendente') {
+        pagamento.status = 'cancelado';
+        await pagamento.save();
+      }
+    }
+
+    return reserva;
   }
 
   /**

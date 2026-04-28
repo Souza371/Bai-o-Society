@@ -190,8 +190,48 @@ class AuthService {
    * @returns {Object} Usuário sem dados sensíveis
    */
   sanitizeUser(usuario) {
-    const { id, email, nome, telefone, perfil, createdAt } = usuario;
-    return { id, email, nome, telefone, perfil, createdAt };
+    const { id, email, nome, telefone, perfil, criado_em } = usuario;
+    return { id, email, nome, telefone, perfil, criado_em };
+  }
+
+  async getById(userId, Usuario) {
+    const usuario = await Usuario.findByPk(userId);
+    if (!usuario) {
+      throw {
+        status: 404,
+        message: 'Usuário não encontrado',
+        code: 'USUARIO_NAO_ENCONTRADO'
+      };
+    }
+
+    return this.sanitizeUser(usuario);
+  }
+
+  async updateProfile(userId, dados, Usuario) {
+    const usuario = await Usuario.findByPk(userId);
+    if (!usuario) {
+      throw {
+        status: 404,
+        message: 'Usuário não encontrado',
+        code: 'USUARIO_NAO_ENCONTRADO'
+      };
+    }
+
+    const { nome, telefone } = dados;
+
+    if (nome !== undefined) usuario.nome = nome;
+    if (telefone !== undefined) usuario.telefone = telefone;
+
+    await usuario.save();
+    return this.sanitizeUser(usuario);
+  }
+
+  async listarUsuarios(Usuario) {
+    const usuarios = await Usuario.findAll({
+      order: [['criado_em', 'DESC']]
+    });
+
+    return usuarios.map((usuario) => this.sanitizeUser(usuario));
   }
 }
 

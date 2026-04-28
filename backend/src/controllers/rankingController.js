@@ -6,6 +6,16 @@ const rankingService = require('../services/rankingService');
  */
 
 class RankingController {
+  constructor() {
+    this.rankingGeral = this.rankingGeral.bind(this);
+    this.rankingMensal = this.rankingMensal.bind(this);
+    this.rankingDesempenho = this.rankingDesempenho.bind(this);
+    this.buscarPorTime = this.buscarPorTime.bind(this);
+    this.registrarPartida = this.registrarPartida.bind(this);
+    this.resetar = this.resetar.bind(this);
+    this.handleError = this.handleError.bind(this);
+  }
+
   /**
    * GET /api/ranking/geral - Ranking geral
    */

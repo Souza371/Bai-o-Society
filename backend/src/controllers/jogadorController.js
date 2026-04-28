@@ -6,6 +6,15 @@ const jogadorService = require('../services/jogadorService');
  */
 
 class JogadorController {
+  constructor() {
+    this.listar = this.listar.bind(this);
+    this.buscar = this.buscar.bind(this);
+    this.adicionar = this.adicionar.bind(this);
+    this.atualizar = this.atualizar.bind(this);
+    this.remover = this.remover.bind(this);
+    this.handleError = this.handleError.bind(this);
+  }
+
   /**
    * GET /api/times/:time_id/jogadores - Listar jogadores do time
    */

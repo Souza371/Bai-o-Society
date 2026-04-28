@@ -1,10 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
+import Modal from './Modal';
 import './Shop.css';
 
 const Shop = () => {
+  const { user } = useContext(AuthContext);
+  const isAdmin = user?.perfil === 'admin';
   const [carrinho, setCarrinho] = useState([]);
   const [mostrarCarrinho, setMostrarCarrinho] = useState(false);
   const [abaAtiva, setAbaAtiva] = useState('utensílios');
+  const [showProdutoModal, setShowProdutoModal] = useState(false);
+  const [produtoEditando, setProdutoEditando] = useState(null);
+  const [produtoForm, setProdutoForm] = useState({
+    nome: '',
+    preco: '',
+    categoria: '',
+    emoji: '',
+    cor: '#1565c0',
+    descricao: '',
+    imagem_url: '',
+    grupo: 'utensílios'
+  });
 
   const produtosUtensílios = [
     {
@@ -195,17 +211,67 @@ const Shop = () => {
     },
   ];
 
-  const getProdutosABA = () => {
-    switch(abaAtiva) {
-      case 'utensílios':
-        return produtosUtensílios;
-      case 'comidas':
-        return produtosComidas;
-      case 'merchandise':
-        return produtosMerchandise;
-      default:
-        return [];
+  const produtosBase = [
+    ...produtosUtensílios.map((produto) => ({ ...produto, grupo: 'utensílios' })),
+    ...produtosComidas.map((produto) => ({ ...produto, grupo: 'comidas' })),
+    ...produtosMerchandise.map((produto) => ({ ...produto, grupo: 'merchandise' }))
+  ];
+
+  const [produtos, setProdutos] = useState(produtosBase);
+
+  const getProdutosABA = () => produtos.filter((produto) => produto.grupo === abaAtiva);
+
+  const abrirEditorProduto = (produto) => {
+    setProdutoEditando(produto);
+    setProdutoForm({
+      nome: produto.nome || '',
+      preco: produto.preco?.toString() || '',
+      categoria: produto.categoria || '',
+      emoji: produto.emoji || '',
+      cor: produto.cor || '#1565c0',
+      descricao: produto.descricao || '',
+      imagem_url: produto.imagem_url || '',
+      grupo: produto.grupo || 'utensílios'
+    });
+    setShowProdutoModal(true);
+  };
+
+  const fecharEditorProduto = () => {
+    setShowProdutoModal(false);
+    setProdutoEditando(null);
+  };
+
+  const salvarProduto = () => {
+    if (!produtoForm.nome || !produtoForm.preco) {
+      alert('Preencha nome e preço');
+      return;
     }
+
+    const produtoAtualizado = {
+      ...produtoEditando,
+      ...produtoForm,
+      preco: Number(produtoForm.preco)
+    };
+
+    setProdutos((atual) =>
+      atual.map((produto) =>
+        produto.id === produtoAtualizado.id ? produtoAtualizado : produto
+      )
+    );
+
+    fecharEditorProduto();
+  };
+
+  const handleProdutoImagem = (event) => {
+    const arquivo = event.target.files?.[0];
+    if (!arquivo) return;
+
+    const leitor = new FileReader();
+    leitor.onload = () => {
+      const resultado = typeof leitor.result === 'string' ? leitor.result : '';
+      setProdutoForm((atual) => ({ ...atual, imagem_url: resultado }));
+    };
+    leitor.readAsDataURL(arquivo);
   };
 
   const adicionarAoCarrinho = (produto) => {
@@ -244,17 +310,19 @@ const Shop = () => {
       <div className="shop-header">
         <div className="shop-titulo">
           <h2>🛍️ Loja Baião Society</h2>
-          <p>Produtos exclusivos com estilo!</p>
+          <p>{isAdmin ? 'Painel de gestão de produtos e fotos' : 'Produtos exclusivos com estilo!'}</p>
         </div>
-        <button
-          className="btn-carrinho"
-          onClick={() => setMostrarCarrinho(!mostrarCarrinho)}
-        >
-          🛒 Carrinho ({carrinho.length})
-        </button>
+        {!isAdmin && (
+          <button
+            className="btn-carrinho"
+            onClick={() => setMostrarCarrinho(!mostrarCarrinho)}
+          >
+            🛒 Carrinho ({carrinho.length})
+          </button>
+        )}
       </div>
 
-      {mostrarCarrinho && (
+      {!isAdmin && mostrarCarrinho && (
         <div className="carrinho-panel">
           <h3>Seu Carrinho</h3>
           {carrinho.length === 0 ? (
@@ -328,10 +396,14 @@ const Shop = () => {
 
       <div className="produtos-grid">
         {getProdutosABA().map(produto => (
-          <div key={produto.id} className="produto-card" style={{ '--accent': produto.cor }}>
+          <div key={produto.id} className={`produto-card ${isAdmin ? 'produto-card-admin' : ''}`} style={{ '--accent': produto.cor }}>
             <div className="produto-emoji" style={{ backgroundColor: produto.cor }}>
               <span className="produto-badge">{produto.categoria}</span>
-              {produto.emoji}
+              {produto.imagem_url ? (
+                <img src={produto.imagem_url} alt={produto.nome} className="produto-foto" />
+              ) : (
+                <span className="produto-emoji-char">{produto.emoji}</span>
+              )}
             </div>
             <div className="produto-info">
               <h3>{produto.nome}</h3>
@@ -342,17 +414,67 @@ const Shop = () => {
                   <span className="produto-label">Preço</span>
                   <span className="preco">R$ {produto.preco.toFixed(2)}</span>
                 </div>
-                <button
-                  className="btn-adicionar"
-                  onClick={() => adicionarAoCarrinho(produto)}
-                >
-                  Adicionar ao carrinho
-                </button>
+                {isAdmin ? (
+                  <button
+                    className="btn-adicionar btn-editar-produto"
+                    onClick={() => abrirEditorProduto(produto)}
+                  >
+                    Editar produto
+                  </button>
+                ) : (
+                  <button
+                    className="btn-adicionar"
+                    onClick={() => adicionarAoCarrinho(produto)}
+                  >
+                    Adicionar ao carrinho
+                  </button>
+                )}
               </div>
             </div>
           </div>
         ))}
       </div>
+
+      {isAdmin && (
+        <Modal
+          isOpen={showProdutoModal}
+          title={produtoEditando ? 'Editar produto' : 'Editar produto'}
+          onClose={fecharEditorProduto}
+          onConfirm={salvarProduto}
+          confirmText="Salvar"
+          cancelText="Cancelar"
+        >
+          <div className="form-group">
+            <label>Nome</label>
+            <input type="text" value={produtoForm.nome} onChange={(e) => setProdutoForm((atual) => ({ ...atual, nome: e.target.value }))} />
+          </div>
+          <div className="form-group">
+            <label>Preço</label>
+            <input type="number" step="0.01" value={produtoForm.preco} onChange={(e) => setProdutoForm((atual) => ({ ...atual, preco: e.target.value }))} />
+          </div>
+          <div className="form-group">
+            <label>Descrição</label>
+            <textarea rows="3" value={produtoForm.descricao} onChange={(e) => setProdutoForm((atual) => ({ ...atual, descricao: e.target.value }))} />
+          </div>
+          <div className="form-group">
+            <label>Categoria</label>
+            <input type="text" value={produtoForm.categoria} onChange={(e) => setProdutoForm((atual) => ({ ...atual, categoria: e.target.value }))} />
+          </div>
+          <div className="form-group">
+            <label>Cor</label>
+            <input type="color" value={produtoForm.cor} onChange={(e) => setProdutoForm((atual) => ({ ...atual, cor: e.target.value }))} />
+          </div>
+          <div className="form-group">
+            <label>Foto do produto</label>
+            <input type="file" accept="image/*" onChange={handleProdutoImagem} />
+            {produtoForm.imagem_url && (
+              <div className="imagem-preview produto-preview">
+                <img src={produtoForm.imagem_url} alt="Pré-visualização do produto" />
+              </div>
+            )}
+          </div>
+        </Modal>
+      )}
     </div>
   );
 };

@@ -19,22 +19,24 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      verifyToken(token);
+      loadCurrentUser(token);
     } else {
       setLoading(false);
     }
   }, []);
 
-  const verifyToken = async (token) => {
+  const loadCurrentUser = async (token) => {
     try {
-      const response = await api.get('/auth/verify', {
+      const response = await api.get('/auth/me', {
         headers: { Authorization: `Bearer ${token}` }
       });
-      if (response.data.user) {
-        setUser(response.data.user);
+      if (response.data.data) {
+        setUser(response.data.data);
+        localStorage.setItem('user', JSON.stringify(response.data.data));
       }
     } catch (error) {
       localStorage.removeItem('token');
+      localStorage.removeItem('user');
     } finally {
       setLoading(false);
     }
@@ -43,11 +45,21 @@ function App() {
   const login = (userData, token) => {
     setUser(userData);
     localStorage.setItem('token', token);
+    localStorage.setItem('user', JSON.stringify(userData));
+  };
+
+  const updateUser = (userData) => {
+    setUser((current) => {
+      const updated = { ...(current || {}), ...userData };
+      localStorage.setItem('user', JSON.stringify(updated));
+      return updated;
+    });
   };
 
   const logout = () => {
     setUser(null);
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
   };
 
   if (loading) {
@@ -55,7 +67,7 @@ function App() {
   }
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, updateUser }}>
       <Router>
         {user && <Navbar />}
         <Routes>

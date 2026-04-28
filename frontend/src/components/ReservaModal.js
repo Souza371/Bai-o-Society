@@ -3,13 +3,23 @@ import ReservaCalendario from './ReservaCalendario';
 import api from '../services/api';
 import './ReservaModal.css';
 
-function ReservaModal({ quadra, onClose, onSucesso }) {
-  const [dataEscolhida, setDataEscolhida] = useState(null);
-  const [horaEscolhida, setHoraEscolhida] = useState(null);
-  const [horaFim, setHoraFim] = useState(null);
-  const [observacoes, setObservacoes] = useState('');
+const METODOS_PAGAMENTO = [
+  { value: 'pix', label: 'PIX' },
+  { value: 'cartao', label: 'Cartão' },
+  { value: 'dinheiro', label: 'Dinheiro' },
+  { value: 'boleto', label: 'Boleto' }
+];
+
+function ReservaModal({ quadra, reserva = null, onClose, onSucesso }) {
+  const [dataEscolhida, setDataEscolhida] = useState(reserva?.data || null);
+  const [horaEscolhida, setHoraEscolhida] = useState(reserva?.hora_inicio || null);
+  const [horaFim, setHoraFim] = useState(reserva?.hora_fim || null);
+  const [observacoes, setObservacoes] = useState(reserva?.observacoes || '');
+  const [metodoPagamento, setMetodoPagamento] = useState(reserva?.Pagamento?.metodo || 'pix');
   const [loading, setLoading] = useState(false);
   const [erro, setErro] = useState('');
+
+  const isEdicao = Boolean(reserva?.id);
 
   const handleSelectData = (data) => {
     setDataEscolhida(data);
@@ -37,13 +47,20 @@ function ReservaModal({ quadra, onClose, onSucesso }) {
     setErro('');
 
     try {
-      await api.post('/reservas', {
+      const payload = {
         quadra_id: quadra.id,
         data: dataEscolhida,
         hora_inicio: horaEscolhida,
         hora_fim: horaFim,
-        observacoes: observacoes || null
-      });
+        observacoes: observacoes || null,
+        metodo_pagamento: metodoPagamento
+      };
+
+      if (isEdicao) {
+        await api.put(`/reservas/${reserva.id}`, payload);
+      } else {
+        await api.post('/reservas', payload);
+      }
 
       // Sucesso!
       if (onSucesso) {
@@ -60,7 +77,7 @@ function ReservaModal({ quadra, onClose, onSucesso }) {
     <div className="reserva-modal-overlay" onClick={onClose}>
       <div className="reserva-modal-content" onClick={e => e.stopPropagation()}>
         <div className="reserva-modal-header">
-          <h2>Reservar Quadra</h2>
+          <h2>{isEdicao ? 'Editar Reserva' : 'Reservar Quadra'}</h2>
           <button className="btn-fechar-modal" onClick={onClose}>✕</button>
         </div>
 
@@ -143,6 +160,21 @@ function ReservaModal({ quadra, onClose, onSucesso }) {
                 />
               </div>
 
+              <div className="form-group">
+                <label>Forma de pagamento:</label>
+                <select
+                  value={metodoPagamento}
+                  onChange={(e) => setMetodoPagamento(e.target.value)}
+                  className="input-select"
+                >
+                  {METODOS_PAGAMENTO.map((metodo) => (
+                    <option key={metodo.value} value={metodo.value}>
+                      {metodo.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
               {/* Resumo de Preço */}
               <div className="preco-resumo">
                 <p>
@@ -172,7 +204,7 @@ function ReservaModal({ quadra, onClose, onSucesso }) {
                   className="btn-confirmar"
                   disabled={loading}
                 >
-                  {loading ? 'Processando...' : 'Confirmar Reserva'}
+                  {loading ? 'Processando...' : isEdicao ? 'Salvar Alterações' : 'Confirmar Reserva'}
                 </button>
               </div>
             </form>

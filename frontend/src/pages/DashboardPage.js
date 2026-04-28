@@ -12,6 +12,7 @@ function DashboardPage() {
   const [loading, setLoading] = useState(false);
   const [showReservaModal, setShowReservaModal] = useState(false);
   const [selectedQuadra, setSelectedQuadra] = useState(null);
+  const [reservaEmEdicao, setReservaEmEdicao] = useState(null);
 
   useEffect(() => {
     carregarDados();
@@ -35,12 +36,26 @@ function DashboardPage() {
 
   const handleSelectQuadra = (quadra) => {
     setSelectedQuadra(quadra);
+    setReservaEmEdicao(null);
+    setShowReservaModal(true);
+  };
+
+  const handleEditarReserva = (reserva) => {
+    const quadraDaReserva = quadras.find((q) => q.id === reserva.quadra_id);
+    if (!quadraDaReserva) {
+      alert('Não foi possível carregar os dados da quadra para edição.');
+      return;
+    }
+
+    setSelectedQuadra(quadraDaReserva);
+    setReservaEmEdicao(reserva);
     setShowReservaModal(true);
   };
 
   const handleReservaSucesso = () => {
     setShowReservaModal(false);
     setSelectedQuadra(null);
+    setReservaEmEdicao(null);
     carregarDados();
   };
 
@@ -53,6 +68,12 @@ function DashboardPage() {
         alert('Erro ao cancelar reserva');
       }
     }
+  };
+
+  const fecharModalReserva = () => {
+    setShowReservaModal(false);
+    setSelectedQuadra(null);
+    setReservaEmEdicao(null);
   };
 
   const quadraPrincipal = quadras[0];
@@ -135,14 +156,30 @@ function DashboardPage() {
                     <div className="reserva-info">
                       <h4>{reserva.Quadra?.nome}</h4>
                       <p>{new Date(reserva.data).toLocaleDateString('pt-BR')} às {reserva.hora_inicio}</p>
+                      {reserva.observacoes && (
+                        <p className="reserva-observacoes">Obs: {reserva.observacoes}</p>
+                      )}
+                      {reserva.Pagamento?.metodo && (
+                        <p className="reserva-pagamento">Pagamento: {reserva.Pagamento.metodo}</p>
+                      )}
                       <span className={`status status-${reserva.status}`}>{reserva.status}</span>
                     </div>
-                    <button
-                      className="btn btn-danger"
-                      onClick={() => handleDeleteReserva(reserva.id)}
-                    >
-                      Cancelar
-                    </button>
+                    <div className="reserva-acoes">
+                      {reserva.status !== 'cancelada' && (
+                        <button
+                          className="btn btn-primary"
+                          onClick={() => handleEditarReserva(reserva)}
+                        >
+                          Editar
+                        </button>
+                      )}
+                      <button
+                        className="btn btn-danger"
+                        onClick={() => handleDeleteReserva(reserva.id)}
+                      >
+                        Cancelar
+                      </button>
+                    </div>
                   </div>
                 ))
               )}
@@ -158,7 +195,8 @@ function DashboardPage() {
       {showReservaModal && selectedQuadra && (
         <ReservaModal 
           quadra={selectedQuadra}
-          onClose={() => setShowReservaModal(false)}
+          reserva={reservaEmEdicao}
+          onClose={fecharModalReserva}
           onSucesso={handleReservaSucesso}
         />
       )}

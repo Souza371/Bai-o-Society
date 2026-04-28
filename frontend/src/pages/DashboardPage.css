@@ -317,6 +317,25 @@
   font-size: 14px;
 }
 
+.reserva-observacoes {
+  margin-top: 8px !important;
+  color: #334155 !important;
+  font-style: italic;
+}
+
+.reserva-pagamento {
+  margin-top: 4px !important;
+  color: #166534 !important;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.reserva-acoes {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .status {
   display: inline-block;
   padding: 4px 12px;
@@ -428,9 +447,15 @@
     align-items: flex-start;
   }
 
-  .reserva-item .btn {
+  .reserva-acoes {
     width: 100%;
     margin-top: 12px;
+    gap: 10px;
+  }
+
+  .reserva-item .btn {
+    width: 100%;
+    margin-top: 0;
   }
 }
 

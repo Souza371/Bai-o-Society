@@ -6,6 +6,15 @@ const quadraService = require('../services/quadraService');
  */
 
 class QuadraController {
+  constructor() {
+    this.listar = this.listar.bind(this);
+    this.buscar = this.buscar.bind(this);
+    this.criar = this.criar.bind(this);
+    this.atualizar = this.atualizar.bind(this);
+    this.desativar = this.desativar.bind(this);
+    this.handleError = this.handleError.bind(this);
+  }
+
   /**
    * GET /api/quadras - Listar quadras
    */

@@ -6,6 +6,16 @@ const authService = require('../services/authService');
  */
 
 class AuthController {
+  constructor() {
+    this.register = this.register.bind(this);
+    this.login = this.login.bind(this);
+    this.refreshToken = this.refreshToken.bind(this);
+    this.me = this.me.bind(this);
+    this.atualizarMe = this.atualizarMe.bind(this);
+    this.listarUsuarios = this.listarUsuarios.bind(this);
+    this.handleError = this.handleError.bind(this);
+  }
+
   /**
    * POST /api/auth/register
    * Registrar novo usuário
@@ -70,6 +80,62 @@ class AuthController {
       res.status(200).json({
         status: 'success',
         data: resultado
+      });
+    } catch (erro) {
+      this.handleError(erro, res);
+    }
+  }
+
+  /**
+   * GET /api/auth/me
+   */
+  async me(req, res) {
+    try {
+      const usuario = await authService.getById(
+        req.user.userId,
+        req.app.get('db').Usuario
+      );
+
+      res.json({
+        status: 'success',
+        data: usuario
+      });
+    } catch (erro) {
+      this.handleError(erro, res);
+    }
+  }
+
+  /**
+   * PATCH /api/auth/me
+   */
+  async atualizarMe(req, res) {
+    try {
+      const usuario = await authService.updateProfile(
+        req.user.userId,
+        req.body,
+        req.app.get('db').Usuario
+      );
+
+      res.json({
+        status: 'success',
+        message: 'Perfil atualizado com sucesso',
+        data: usuario
+      });
+    } catch (erro) {
+      this.handleError(erro, res);
+    }
+  }
+
+  /**
+   * GET /api/auth/users - lista usuários para admin
+   */
+  async listarUsuarios(req, res) {
+    try {
+      const usuarios = await authService.listarUsuarios(req.app.get('db').Usuario);
+
+      res.json({
+        status: 'success',
+        data: usuarios
       });
     } catch (erro) {
       this.handleError(erro, res);

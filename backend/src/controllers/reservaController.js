@@ -8,6 +8,31 @@ const validacaoHorarios = require('../services/validacaoHorarios');
  */
 
 class ReservaController {
+  constructor() {
+    this.criar = this.criar.bind(this);
+    this.listar = this.listar.bind(this);
+    this.horariosLivres = this.horariosLivres.bind(this);
+    this.buscar = this.buscar.bind(this);
+    this.atualizar = this.atualizar.bind(this);
+    this.cancelar = this.cancelar.bind(this);
+    this.confirmar = this.confirmar.bind(this);
+    this.obterCalendario = this.obterCalendario.bind(this);
+    this.handleError = this.handleError.bind(this);
+    this.validarPermissaoReserva = this.validarPermissaoReserva.bind(this);
+  }
+
+  validarPermissaoReserva(req, reserva) {
+    if (req.user.perfil === 'admin') return;
+
+    if (reserva.usuario_id !== req.user.userId) {
+      throw {
+        status: 403,
+        message: 'Acesso negado para esta reserva',
+        code: 'ACESSO_NEGADO'
+      };
+    }
+  }
+
   /**
    * POST /api/reservas - Criar nova reserva
    */
@@ -57,7 +82,8 @@ class ReservaController {
         filtros,
         req.app.get('db').Reserva,
         req.app.get('db').Usuario,
-        req.app.get('db').Quadra
+        req.app.get('db').Quadra,
+        req.app.get('db').Pagamento
       );
 
       res.json({
@@ -111,8 +137,11 @@ class ReservaController {
         id,
         req.app.get('db').Reserva,
         req.app.get('db').Usuario,
-        req.app.get('db').Quadra
+        req.app.get('db').Quadra,
+        req.app.get('db').Pagamento
       );
+
+      this.validarPermissaoReserva(req, reserva);
 
       res.json({
         status: 'success',
@@ -129,12 +158,23 @@ class ReservaController {
   async atualizar(req, res) {
     try {
       const { id } = req.params;
+
+      const reservaExistente = await reservaService.buscarPorId(
+        id,
+        req.app.get('db').Reserva,
+        req.app.get('db').Usuario,
+        req.app.get('db').Quadra,
+        req.app.get('db').Pagamento
+      );
+      this.validarPermissaoReserva(req, reservaExistente);
+
       const reserva = await reservaService.atualizar(
         id,
         req.body,
         req.app.get('sequelize'),
         req.app.get('db').Reserva,
-        req.app.get('db').Quadra
+        req.app.get('db').Quadra,
+        req.app.get('db').Pagamento
       );
 
       res.json({
@@ -153,7 +193,21 @@ class ReservaController {
   async cancelar(req, res) {
     try {
       const { id } = req.params;
-      const reserva = await reservaService.cancelar(id, req.app.get('db').Reserva);
+
+      const reservaExistente = await reservaService.buscarPorId(
+        id,
+        req.app.get('db').Reserva,
+        req.app.get('db').Usuario,
+        req.app.get('db').Quadra,
+        req.app.get('db').Pagamento
+      );
+      this.validarPermissaoReserva(req, reservaExistente);
+
+      const reserva = await reservaService.cancelar(
+        id,
+        req.app.get('db').Reserva,
+        req.app.get('db').Pagamento
+      );
 
       res.json({
         status: 'success',

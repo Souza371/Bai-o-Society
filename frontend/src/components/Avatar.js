@@ -1,7 +1,7 @@
 import React from 'react';
 import './Avatar.css';
 
-function Avatar({ nome, email, perfil, tamanho = 'md' }) {
+function Avatar({ nome, email, perfil, fotoUrl, tamanho = 'md', onClick, editable = false }) {
   // Extrair iniciais do nome
   const iniciais = nome
     ? nome
@@ -25,9 +25,22 @@ function Avatar({ nome, email, perfil, tamanho = 'md' }) {
   };
 
   return (
-    <div className={`avatar avatar-${tamanho}`} style={{ backgroundColor: getCorPerfil() }}>
-      <img src="/brasao-oficial.jpg" alt={`Avatar de ${nome}`} className="avatar-brasao" />
-      <div className="avatar-initials">{iniciais}</div>
+    <div
+      className={`avatar avatar-${tamanho} ${editable ? 'avatar-editable' : ''}`}
+      style={{ backgroundColor: getCorPerfil() }}
+      onClick={onClick}
+      role={onClick ? 'button' : undefined}
+      tabIndex={onClick ? 0 : undefined}
+    >
+      {fotoUrl ? (
+        <img src={fotoUrl} alt={`Avatar de ${nome}`} className="avatar-photo" />
+      ) : (
+        <>
+          <img src="/brasao-oficial.jpg" alt={`Avatar de ${nome}`} className="avatar-brasao" />
+          <div className="avatar-initials">{iniciais}</div>
+        </>
+      )}
+      {editable && <span className="avatar-edit-badge">Editar</span>}
     </div>
   );
 }

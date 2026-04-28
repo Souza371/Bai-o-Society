@@ -8,12 +8,24 @@ export const authService = {
     api.post('/auth/login', { email, senha }),
 
   refreshToken: (refreshToken) =>
-    api.post('/auth/refresh-token', { refreshToken })
+    api.post('/auth/refresh-token', { refreshToken }),
+
+  getProfile: () =>
+    api.get('/auth/me'),
+
+  atualizarPerfil: (dados) =>
+    api.patch('/auth/me', dados),
+
+  listarUsuarios: () =>
+    api.get('/auth/users')
 };
 
 export const reservaService = {
   listar: (filtros) =>
     api.get('/reservas', { params: filtros }),
+
+  buscarPorId: (id) =>
+    api.get(`/reservas/${id}`),
 
   criar: (dados) =>
     api.post('/reservas', dados),

@@ -6,6 +6,16 @@ const timeService = require('../services/timeService');
  */
 
 class TimeController {
+  constructor() {
+    this.listar = this.listar.bind(this);
+    this.buscar = this.buscar.bind(this);
+    this.criar = this.criar.bind(this);
+    this.atualizar = this.atualizar.bind(this);
+    this.desativar = this.desativar.bind(this);
+    this.ativar = this.ativar.bind(this);
+    this.handleError = this.handleError.bind(this);
+  }
+
   /**
    * GET /api/times - Listar times
    */
