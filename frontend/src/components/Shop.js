@@ -328,8 +328,9 @@ const Shop = () => {
 
       <div className="produtos-grid">
         {getProdutosABA().map(produto => (
-          <div key={produto.id} className="produto-card">
+          <div key={produto.id} className="produto-card" style={{ '--accent': produto.cor }}>
             <div className="produto-emoji" style={{ backgroundColor: produto.cor }}>
+              <span className="produto-badge">{produto.categoria}</span>
               {produto.emoji}
             </div>
             <div className="produto-info">
@@ -338,13 +339,14 @@ const Shop = () => {
               <div className="produto-categoria">{produto.categoria}</div>
               <div className="produto-footer">
                 <div className="produto-preco">
+                  <span className="produto-label">Preço</span>
                   <span className="preco">R$ {produto.preco.toFixed(2)}</span>
                 </div>
                 <button
                   className="btn-adicionar"
                   onClick={() => adicionarAoCarrinho(produto)}
                 >
-                  + Adicionar
+                  Adicionar ao carrinho
                 </button>
               </div>
             </div>

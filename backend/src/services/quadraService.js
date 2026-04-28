@@ -40,7 +40,7 @@ class QuadraService {
    * Criar nova quadra (ADMIN)
    */
   async criar(QuadraData, Quadra) {
-    const { nome, descricao, tipo, metragem, preco_hora } = QuadraData;
+    const { nome, descricao, tipo, metragem, preco_hora, imagem_url } = QuadraData;
 
     if (!nome || preco_hora === undefined) {
       throw {
@@ -63,7 +63,8 @@ class QuadraService {
       descricao,
       tipo: tipo || 'futsal',
       metragem,
-      preco_hora
+      preco_hora,
+      imagem_url
     });
 
     return quadra;

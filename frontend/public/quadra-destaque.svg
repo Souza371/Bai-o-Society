@@ -1,0 +1,46 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="800" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F4C81"/>
+      <stop offset="1" stop-color="#2D9CDB"/>
+    </linearGradient>
+    <linearGradient id="field" x1="0" y1="360" x2="1200" y2="800" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2F8F2F"/>
+      <stop offset="1" stop-color="#1F6F1F"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(600 180) rotate(90) scale(460 760)">
+      <stop stop-color="#FFFFFF" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="800" rx="40" fill="url(#sky)"/>
+  <rect y="320" width="1200" height="480" fill="url(#field)"/>
+  <rect x="70" y="110" width="1060" height="600" rx="28" fill="url(#glow)"/>
+
+  <g opacity="0.28">
+    <ellipse cx="180" cy="140" rx="92" ry="30" fill="#FFFFFF"/>
+    <ellipse cx="280" cy="120" rx="64" ry="22" fill="#FFFFFF"/>
+    <ellipse cx="960" cy="150" rx="110" ry="34" fill="#FFFFFF"/>
+    <ellipse cx="1030" cy="125" rx="68" ry="24" fill="#FFFFFF"/>
+  </g>
+
+  <g opacity="0.2">
+    <circle cx="940" cy="150" r="66" fill="#FFD54A"/>
+    <circle cx="940" cy="150" r="96" fill="#FFD54A" fill-opacity="0.18"/>
+  </g>
+
+  <rect x="145" y="390" width="910" height="300" rx="18" fill="none" stroke="#FFFFFF" stroke-width="10"/>
+  <line x1="600" y1="390" x2="600" y2="690" stroke="#FFFFFF" stroke-width="10"/>
+  <circle cx="600" cy="540" r="60" fill="none" stroke="#FFFFFF" stroke-width="10"/>
+  <rect x="145" y="445" width="90" height="190" rx="8" fill="none" stroke="#FFFFFF" stroke-width="10"/>
+  <rect x="965" y="445" width="90" height="190" rx="8" fill="none" stroke="#FFFFFF" stroke-width="10"/>
+  <path d="M145 445C178 445 210 473 210 540C210 607 178 635 145 635" stroke="#FFFFFF" stroke-width="10" fill="none"/>
+  <path d="M1055 445C1022 445 990 473 990 540C990 607 1022 635 1055 635" stroke="#FFFFFF" stroke-width="10" fill="none"/>
+
+  <g opacity="0.35">
+    <rect x="180" y="690" width="840" height="12" rx="6" fill="#FFFFFF"/>
+    <rect x="240" y="720" width="720" height="8" rx="4" fill="#FFFFFF"/>
+  </g>
+
+</svg>

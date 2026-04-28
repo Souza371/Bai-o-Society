@@ -55,6 +55,8 @@ function DashboardPage() {
     }
   };
 
+  const quadraPrincipal = quadras[0];
+
   if (loading) return <div className="dashboard-page">Carregando...</div>;
 
   return (
@@ -71,26 +73,54 @@ function DashboardPage() {
 
       <div className="dashboard-container">
         <div className="quadras-section">
-          <Card title="Quadras Disponíveis">
-            <div className="quadras-grid">
-              {quadras.length === 0 ? (
-                <p>Nenhuma quadra disponível</p>
-              ) : (
-                quadras.map(quadra => (
-                  <div key={quadra.id} className="quadra-card">
-                    <h3>{quadra.nome}</h3>
-                    <p>{quadra.metragem}m²</p>
-                    <p className="preco">R$ {quadra.preco_hora?.toFixed(2)}/hora</p>
-                    <button 
-                      className="btn btn-primary"
-                      onClick={() => handleSelectQuadra(quadra)}
-                    >
-                      Reservar
-                    </button>
+          <Card title="Quadra em Destaque" className="quadra-destaque-card">
+            {quadraPrincipal ? (
+              <div className="quadra-destaque-layout">
+                <div className="quadra-destaque-imagem">
+                  <img
+                    src={quadraPrincipal.imagem_url || '/quadra-destaque.svg'}
+                    alt="Imagem ilustrada da quadra"
+                    className="quadra-destaque-img"
+                  />
+                  <span className="quadra-destaque-badge">Única quadra disponível</span>
+                </div>
+
+                <div className="quadra-destaque-info">
+                  <div className="quadra-destaque-topo">
+                    <span className="quadra-destaque-tag">Disponível para aluguel</span>
+                    <span className="quadra-destaque-tag quadra-destaque-tag-secundaria">Reserva rápida</span>
                   </div>
-                ))
-              )}
-            </div>
+
+                  <h3>{quadraPrincipal.nome}</h3>
+                  <p className="quadra-destaque-descricao">
+                    O campo oficial do Baião Society, preparado para jogos, treinos e reservas com conforto.
+                  </p>
+
+                  <div className="quadra-destaque-metricas">
+                    <div className="quadra-metrica">
+                      <span className="quadra-metrica-label">Área</span>
+                      <strong>{quadraPrincipal.metragem}m²</strong>
+                    </div>
+                    <div className="quadra-metrica">
+                      <span className="quadra-metrica-label">Preço/hora</span>
+                      <strong>R$ {quadraPrincipal.preco_hora?.toFixed(2)}</strong>
+                    </div>
+                  </div>
+
+                  <div className="quadra-destaque-acoes">
+                    <button 
+                      className="btn btn-primary btn-reservar-destaque"
+                      onClick={() => handleSelectQuadra(quadraPrincipal)}
+                    >
+                      Reservar agora
+                    </button>
+                    <span className="quadra-destaque-obs">Abra o calendário e garanta seu horário agora</span>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <p>Nenhuma quadra disponível</p>
+            )}
           </Card>
         </div>
 

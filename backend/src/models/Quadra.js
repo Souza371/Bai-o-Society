@@ -35,6 +35,10 @@ module.exports = (sequelize) => {
         allowNull: false,
         example: 80.00
       },
+      imagem_url: {
+        type: DataTypes.TEXT,
+        allowNull: true
+      },
       ativa: {
         type: DataTypes.BOOLEAN,
         defaultValue: true
